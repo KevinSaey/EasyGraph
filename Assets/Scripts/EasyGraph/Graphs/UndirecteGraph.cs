@@ -47,6 +47,34 @@ namespace EasyGraph
 
         #endregion
 
+        #region IGraph functions
+        public List<TVertex> GetAllVertices()
+        {
+            return _vertexEdgeDict.Keys.ToList();
+        }
+        public List<TEdge> GetEdges()
+        {
+            List<TEdge> edges = new List<TEdge>();
+            foreach (var edge in _vertexEdgeDict.Values.SelectMany(e => e))
+            {
+                if (!edges.Contains(edge))
+                {
+                    edges.Add(edge);
+                }
+            }
+
+            return edges;
+        }
+
+        public List<TEdge> GetConnectedEdges(TVertex vertex)
+        {
+            if (_vertexEdgeDict.ContainsKey(vertex))
+                return _vertexEdgeDict[vertex];
+            else
+                return null;
+        }
+        #endregion
+
         #region functions
         public bool AddEdge(TEdge newEdge)
         {
@@ -71,20 +99,6 @@ namespace EasyGraph
             return true;
         }
 
-        public List<TEdge> GetEdges()
-        {
-            List<TEdge> edges = new List<TEdge>();
-            foreach (var edge in _vertexEdgeDict.Values.SelectMany(e=>e))
-            {
-                if (!edges.Contains(edge))
-                {
-                    edges.Add(edge);
-                }
-            }
-
-            return edges;
-        }
-
         public HashSet<TVertex> GetNeighbourVertices(TVertex source)
         {
             if (!_vertexEdgeDict.ContainsKey(source)) return null;
@@ -97,6 +111,8 @@ namespace EasyGraph
 
             return new HashSet<TVertex>(connectedVertices);
         }
+
+        
         #endregion
 
     }

@@ -13,5 +13,9 @@ namespace EasyGraph
         public bool AllowParallelEdges { get; }
 
         public Dictionary<TVertex, List<TEdge>> VertexEdgeDict { get; }
+
+        public List<TVertex> GetAllVertices();
+                public List<TEdge> GetEdges();
+        public List<TEdge> GetConnectedEdges(TVertex vertex);
     }
 }

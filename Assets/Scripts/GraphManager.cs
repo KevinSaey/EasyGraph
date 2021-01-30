@@ -49,6 +49,9 @@ public class GraphManager : MonoBehaviour
                 {
                     vertex.GetComponent<MeshRenderer>().material = _materials[1];
                 }
+
+                Dijkstra<GameObject, Edge<GameObject>> dijkstra = new Dijkstra<GameObject, Edge<GameObject>>(_undirectedGraph);
+                dijkstra.DijkstraCalculateWeights(_nodes[0]);
                 
             }
 

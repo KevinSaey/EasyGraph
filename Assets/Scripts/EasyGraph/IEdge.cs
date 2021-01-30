@@ -9,6 +9,8 @@ namespace EasyGraph
     {
         TVertex Source { get; }
         TVertex Target { get; }
+        
+        double Weight { get;  }
 
         public TVertex GetOtherVertex(TVertex testVertex);
     }

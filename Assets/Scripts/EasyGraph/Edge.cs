@@ -5,12 +5,13 @@ using System.Collections.Generic;
 namespace EasyGraph
 {
     class Edge<TVertex> : IEdge<TVertex>
-         where TVertex:class
+         where TVertex : class
+
     {
         #region Private fields
         private readonly TVertex _source;
         private readonly TVertex _target;
-        private float _weight;
+        private double _weight;
 
         #endregion
 
@@ -24,7 +25,7 @@ namespace EasyGraph
         /// </summary>
         public TVertex Target => _target;
 
-        public float Weight => _weight;
+        public double Weight => _weight;
 
         #endregion
 
@@ -33,6 +34,14 @@ namespace EasyGraph
         {
             _source = source;
             _target = target;
+            _weight = 1;
+        }
+
+        public Edge(TVertex source, TVertex target,double weight)
+        {
+            _source = source;
+            _target = target;
+            _weight = weight;
         }
 
         public Edge(TVertex source, TVertex target, float weight)
@@ -51,6 +60,10 @@ namespace EasyGraph
             return testVertex == Source ? Target : Source;
         }
 
+        public void SetWeight(double weight)
+        {
+            _weight = weight;
+        }
         #endregion
     }
 }
