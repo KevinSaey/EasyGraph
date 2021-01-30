@@ -10,6 +10,6 @@ namespace EasyGraph
         TVertex Source { get; }
         TVertex Target { get; }
 
-        public TVertex GetNeighbourVertices(TVertex testVertex);
+        public TVertex GetOtherVertex(TVertex testVertex);
     }
 }

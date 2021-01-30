@@ -8,10 +8,13 @@ public class GraphManager : MonoBehaviour
 {
     [SerializeField]
     List<GameObject> _nodes;
+    [SerializeField]
+    List<Material> _materials;
+
     List<Edge<GameObject>> _edges;
     UndirecteGraph<GameObject, Edge<GameObject>> _undirectedGraph;
     List<GameObject> _edgeLines;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +36,24 @@ public class GraphManager : MonoBehaviour
 
         ResetGraphLines();
 
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit))
+        {
+            GameObject objectHit = hit.transform.gameObject;
+            if (objectHit.tag == "Node")
+            {
+                objectHit.GetComponent<MeshRenderer>().material = _materials[0];
+                foreach (var vertex in _undirectedGraph.GetNeighbourVertices(objectHit))
+                {
+                    vertex.GetComponent<MeshRenderer>().material = _materials[1];
+                }
+                
+            }
+
+            // Do something with the object that was hit by the raycast.
+        }
     }
 
     void ResetGraphLines()

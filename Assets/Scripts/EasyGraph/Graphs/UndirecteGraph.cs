@@ -85,11 +85,16 @@ namespace EasyGraph
             return edges;
         }
 
-        public HashSet<TVertex> GetConnectedVertices(TVertex source)
+        public HashSet<TVertex> GetNeighbourVertices(TVertex source)
         {
             if (!_vertexEdgeDict.ContainsKey(source)) return null;
 
-            IEnumerable<TVertex> connectedVertices = _vertexEdgeDict[source].Select(e=>e.GetNeighbourVertices(source));
+            List<TVertex> connectedVertices = new List<TVertex>();
+            foreach (var edge in _vertexEdgeDict[source])
+            {
+                connectedVertices.Add(edge.GetOtherVertex(source));
+            }
+
             return new HashSet<TVertex>(connectedVertices);
         }
         #endregion

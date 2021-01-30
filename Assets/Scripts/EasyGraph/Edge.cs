@@ -28,8 +28,6 @@ namespace EasyGraph
 
         #endregion
 
-
-
         #region Constructor
         public Edge(TVertex source, TVertex target)
         {
@@ -47,9 +45,9 @@ namespace EasyGraph
         #endregion
 
         #region Public Function
-        public TVertex GetNeighbourVertices(TVertex testVertex)
+        public TVertex GetOtherVertex(TVertex testVertex)
         {
-            if (testVertex != Source || testVertex != Target) return null;
+            if (testVertex != Source && testVertex != Target) return null;
             return testVertex == Source ? Target : Source;
         }
 
