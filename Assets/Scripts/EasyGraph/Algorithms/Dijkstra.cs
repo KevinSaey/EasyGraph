@@ -12,6 +12,9 @@ namespace EasyGraph
         private IGraph<TVertex, TEdge> _graph;
 
 
+        public double MaxDistance=>_distances.Values.Max(s => s.Item1);
+        public double VertexWeight(TVertex vertex) => _distances[vertex].Item1;
+
         public Dijkstra(IGraph<TVertex, TEdge> graph)
         {
             _graph = graph;
@@ -61,10 +64,12 @@ namespace EasyGraph
             double min = double.MaxValue;
             TVertex closestVertex = null;
 
+
+
             foreach (var vertex in visitedVertices)
             {
                 List<TEdge> connectedEdges = _graph.GetConnectedEdges(vertex);
-                
+
                 foreach (var edge in connectedEdges)
                 {
                     TVertex connectedVertex = edge.GetOtherVertex(vertex);
