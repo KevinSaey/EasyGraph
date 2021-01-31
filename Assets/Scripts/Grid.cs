@@ -16,6 +16,10 @@ public class Grid : MonoBehaviour
     List<GameObject> _edgeLines;
     Dijkstra<GameObject, Edge<GameObject>> _dijkstra;
 
+    GameObject _goStart, _goStop;
+    bool _path = true;
+    bool _startEnd = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,14 +35,16 @@ public class Grid : MonoBehaviour
                 if (y > 0) _edges.Add(new Edge<GameObject>(_grid[x, y], _grid[x, y - 1]));
             }
         _undirectedGraph = new UndirecteGraph<GameObject, Edge<GameObject>>(_edges);
+        _dijkstra = new Dijkstra<GameObject, Edge<GameObject>>(_undirectedGraph);
+
         _edgeLines = new List<GameObject>();
+
         ResetGraphLines();
         SetGradient();
     }
 
     void SetGradient()
     {
-
         // Populate the color keys at the relative time 0 and 1 (0 and 100%)
         GradientColorKey[] colorKey = new GradientColorKey[2];
         colorKey[0].color = Color.green;
@@ -64,14 +70,31 @@ public class Grid : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit))
+        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit))
         {
             GameObject objectHit = hit.transform.gameObject;
             if (objectHit.tag == "Node")
             {
-                _dijkstra = new Dijkstra<GameObject, Edge<GameObject>>(_undirectedGraph);
-                _dijkstra.DijkstraCalculateWeights(objectHit);
-                ColourNodes();
+                if (_path)
+                {
+                    Debug.Log("Clicked");
+                    if (!_startEnd)
+                    {
+                        _goStart = objectHit;
+                    }
+                    else
+                    {
+                        _goStop = objectHit;
+                        List<GameObject> path = _dijkstra.GetShortestPath(_goStart, _goStop);
+                        ColourPath(path);
+                    }
+                    _startEnd = !_startEnd;
+                }
+                else
+                {
+                    _dijkstra.DijkstraCalculateWeights(objectHit);
+                    ColourNodes();
+                }
             }
         }
     }
@@ -95,8 +118,6 @@ public class Grid : MonoBehaviour
         }
     }
 
-
-
     void ColourNodes()
     {
         double maxWeight = _dijkstra.MaxDistance;
@@ -110,6 +131,15 @@ public class Grid : MonoBehaviour
 
                 material.color = _gradient.Evaluate((float)Remap(weight, 0, maxWeight, 0, 1));
             }
+    }
+
+    void ColourPath(List<GameObject> nodes)
+    {
+        foreach (var node in nodes)
+        {
+            Material material = node.GetComponent<MeshRenderer>().material;
+            material.color = Color.green;
+        }
     }
 
     double Remap(double value, double oldMin, double oldMax, double newMin, double newMax)

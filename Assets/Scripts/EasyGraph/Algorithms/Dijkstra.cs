@@ -12,7 +12,7 @@ namespace EasyGraph
         private IGraph<TVertex, TEdge> _graph;
 
 
-        public double MaxDistance=>_distances.Values.Max(s => s.Item1);
+        public double MaxDistance => _distances.Values.Max(s => s.Item1);
         public double VertexWeight(TVertex vertex) => _distances[vertex].Item1;
 
         public Dijkstra(IGraph<TVertex, TEdge> graph)
@@ -25,7 +25,6 @@ namespace EasyGraph
             InitializeDistances();
             List<TVertex> unvisitedVertices = _graph.GetAllVertices();
             List<TVertex> visitedVertices = new List<TVertex>();
-            List<TVertex> ShortestPath = new List<TVertex>();
 
             //Set the source distance to zero
             _distances[source] = (0, null);
@@ -84,6 +83,17 @@ namespace EasyGraph
             return closestVertex;
         }
 
+        public List<TVertex> GetShortestPath(TVertex source, TVertex target)
+        {
+            DijkstraCalculateWeights(source);
+            Stack<TVertex> shortestPath = new Stack<TVertex>();
+            shortestPath.Push(target);
+            while (shortestPath.Peek() != source)
+            {
+                shortestPath.Push(_distances[shortestPath.Peek()].Item2);
+            }
+            return new List<TVertex>(shortestPath);
+        }
 
         private void InitializeDistances()
         {
