@@ -7,6 +7,8 @@ public class Grid : MonoBehaviour
 {
     [SerializeField]
     Vector2Int _gridDimensions = new Vector2Int(10, 15);
+    [SerializeField]
+    bool _path = false;
 
     GameObject[,] _grid;
     Gradient _gradient = new Gradient();
@@ -17,7 +19,7 @@ public class Grid : MonoBehaviour
     Dijkstra<GameObject, Edge<GameObject>> _dijkstra;
 
     GameObject _goStart, _goStop;
-    bool _path = true;
+    
     bool _startEnd = false;
 
     // Start is called before the first frame update
