@@ -22,10 +22,15 @@ public class SpringGraphManager : MonoBehaviour
     void Start()
     {
         _lineRenderMaterial = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
+
+        //Extract the springnodes from the node gameobjects to be used in the graph
         _nodes = new List<SpringNode>(_goNodes.Select(g => g.GetComponent<SpringNode>()));
 
+        //Initialise lists
         _edges = new List<Edge<SpringNode>>();
+        _edgeLines = new List<GameObject>();
 
+        //Set all the edges between nodes, including their weights
         _edges.Add(new Edge<SpringNode>(_nodes[0], _nodes[1], 7));
         _edges.Add(new Edge<SpringNode>(_nodes[1], _nodes[2], 3));
         _edges.Add(new Edge<SpringNode>(_nodes[2], _nodes[3], 4));
@@ -33,8 +38,10 @@ public class SpringGraphManager : MonoBehaviour
         _edges.Add(new Edge<SpringNode>(_nodes[4], _nodes[3], 3));
         _edges.Add(new Edge<SpringNode>(_nodes[4], _nodes[0], 15));
 
+        //Create Graph out of edges
         _undirectedGraph = new UndirecteGraph<SpringNode, Edge<SpringNode>>(_edges);
-        _edgeLines = new List<GameObject>();
+        
+        //Draw graphlines
         ResetGraphLines();
     }
 
