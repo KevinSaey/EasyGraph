@@ -1,10 +1,10 @@
-﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine;
 
 namespace EasyGraph
 {
-    public class Edge<TVertex> : IEdge<TVertex>
+   /* public class UnitySpringEdge<TVertex> : IEdge<TVertex>
          where TVertex : class
 
     {
@@ -13,6 +13,13 @@ namespace EasyGraph
         private readonly TVertex _target;
         private double _weight;
 
+
+        #endregion
+
+        #region Public fields
+        public double MinLength { get; set; }
+        public double MaxLength { get; set; }
+        public double CurrentLength { get; set; }
         #endregion
 
         #region IEdge interface fields
@@ -42,18 +49,27 @@ namespace EasyGraph
         #endregion
 
         #region Constructor
-        public Edge(TVertex source, TVertex target)
+        public UnitySpringEdge(TVertex source, TVertex target)
         {
             _source = source;
             _target = target;
             _weight = 1;
         }
 
-        public Edge(TVertex source, TVertex target,double weight)
+        public UnitySpringEdge(TVertex source, TVertex target, double weight)
         {
             _source = source;
             _target = target;
             _weight = weight;
+        }
+
+        public UnitySpringEdge(TVertex source, TVertex target, double weight, double minLength, double maxLength)
+        {
+            _source = source;
+            _target = target;
+            _weight = weight;
+            MinLength = minLength;
+            MaxLength = maxLength;
         }
 
         #endregion
@@ -65,6 +81,10 @@ namespace EasyGraph
             return testVertex == Source ? Target : Source;
         }
 
+        public void SetWeight(double weight)
+        {
+            _weight = weight;
+        }
         #endregion
-    }
+    }*/
 }

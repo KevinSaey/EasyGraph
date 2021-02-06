@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EasyGraph
 {
-    class UndirecteGraph<TVertex, TEdge> : IGraph<TVertex, TEdge>
+    public class UndirecteGraph<TVertex, TEdge> : IGraph<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
         where TVertex : class
     {
@@ -78,6 +78,11 @@ namespace EasyGraph
         #region functions
         public bool AddEdge(TEdge newEdge)
         {
+            if(newEdge.Source == null || newEdge.Target == null)
+            {
+                Console.WriteLine($"Source: {newEdge.Source==null}, Target: {newEdge.Target==null}");
+                return false;
+            }
             if (_vertexEdgeDict.ContainsKey(newEdge.Source))
                 //Check if the egde is parallell to an existing edge
                 foreach (var targetVertex in _vertexEdgeDict[newEdge.Source].Select(v => v.Target))
