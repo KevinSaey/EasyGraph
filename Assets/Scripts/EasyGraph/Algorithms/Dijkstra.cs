@@ -41,16 +41,19 @@ namespace EasyGraph
                 visitedVertices.Add(nextVertex);
                 unvisitedVertices.Remove(nextVertex);
 
-                foreach (var edge in _graph.GetConnectedEdges(nextVertex))
+                if (nextVertex != null)
                 {
-                    TVertex linkedVertex = edge.GetOtherVertex(nextVertex);
-                    double newWeight = _distances[nextVertex].Item1 + edge.Weight;
-                    //Check if the connected vertex is unvisited
-                    //and the distance is smaller than the allready defined distsance
-                    if (unvisitedVertices.Contains(linkedVertex)
-                        && newWeight < _distances[linkedVertex].Item1)
+                    foreach (var edge in _graph.GetConnectedEdges(nextVertex))
                     {
-                        _distances[linkedVertex] = (newWeight, nextVertex);
+                        TVertex linkedVertex = edge.GetOtherVertex(nextVertex);
+                        double newWeight = _distances[nextVertex].Item1 + edge.Weight;
+                        //Check if the connected vertex is unvisited
+                        //and the distance is smaller than the allready defined distsance
+                        if (unvisitedVertices.Contains(linkedVertex)
+                            && newWeight < _distances[linkedVertex].Item1)
+                        {
+                            _distances[linkedVertex] = (newWeight, nextVertex);
+                        }
                     }
                 }
             }
@@ -68,6 +71,7 @@ namespace EasyGraph
             foreach (var vertex in visitedVertices)
             {
                 List<TEdge> connectedEdges = _graph.GetConnectedEdges(vertex);
+
 
                 foreach (var edge in connectedEdges)
                 {

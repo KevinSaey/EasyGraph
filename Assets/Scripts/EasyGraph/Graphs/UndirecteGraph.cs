@@ -68,7 +68,7 @@ namespace EasyGraph
 
         public List<TEdge> GetConnectedEdges(TVertex vertex)
         {
-            if (_vertexEdgeDict.ContainsKey(vertex))
+            if (vertex!= null&&_vertexEdgeDict.ContainsKey(vertex))
                 return _vertexEdgeDict[vertex];
             else
                 return null;
